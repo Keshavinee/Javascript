@@ -94,6 +94,7 @@ class Cafe {
         if (this.products[i].stock >= count){
           this.products[i].stock = this.products[i].stock - count;
           flag = 1;
+          break;
         }
       }
     }
@@ -115,6 +116,7 @@ class Cafe {
   returnProduct(customer_id, product, count){
    
     // Add your code here
+    var flag=0;
     for (let i = 0; i < this.customer_products.length; i++) {
       if (this.customer_products[i].product.name == product.name){
         if (this.customer_products[i].count == count){
@@ -128,17 +130,24 @@ class Cafe {
         else{
           return false;
         }
+
+        flag = 1;
+        break;
       }
     }
 
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].name == product.name){
-          this.products[i].stock = this.products[i].stock + count;
+    if (flag == 1){
+      for (let i = 0; i < this.products.length; i++) {
+        if (this.products[i].name == product.name){
+            this.products[i].stock = this.products[i].stock + count;
+        }
       }
+        
+      this.balance = this.balance - (product.price * count);
+      return true;
     }
-      
-    this.balance = this.balance - (product.price * count);
-    return true;
+
+    return false;
   }
 
 
